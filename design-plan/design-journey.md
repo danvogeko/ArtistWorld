@@ -21,86 +21,69 @@ You can use bullet points and lists, or full paragraphs, or a combo, whichever i
 ### Catalog (Milestone 1)
 > What will your catalog website be about? (1 sentence)
 
-TODO: catalog topic
+Musical Artists (and their work)
 
 
 ### _Consumer_ Audience (Milestone 1)
 > Briefly explain your site's _consumer_ audience. Your audience should be specific, but not arbitrarily specific. (1 sentence)
 > Justify why this audience is a **cohesive** group. (1-2 sentences)
 
-TODO: site audience
-
-TODO: why is this a _cohesive_ audience?
-
+Music enthustiasts (and neophites)
 
 ### _Consumer_ Audience Goals (Milestone 1)
 > Document your _consumer_ audience's goals for using this catalog website.
 > List each goal below. There is no specific number of goals required for this, but you need enough to do the job (Hint: It's more than 1. But probably not more than 3.)
 > **Hint:** Users will be able to view all entries in the catalog and insert new entries into the catalog. The audience's goals should probably relate to these activities.
 
-Goal 1: TODO: brief title
+Goal 1: Expose users to new categories of music
 
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO: design ideas (1-2 sentences)
+  - A home page that lists kinds of music along with a filtering system
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO: rationale  (1-2 sentences)
+  - A home page allows users to explore and select different kinds of content in one place.
 
-Goal 2: TODO: brief title
-
+Goal 2: Deepen understanding of already explored categories of music
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO: design ideas (1-2 sentences)
+  - For each artist listed in the media catalog, there will be a detailed view for that artist
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO: rationale (1-2 sentences)
-
-Goal 3: TODO: brief title
-
-TODO: design ideas and rationale
-
-
-TODO: add as many goals as needed
-
+  - Having such a detail view allows users to learn more about a particular artist, including their background and work.
 
 ### _Consumer_ Audience Device (Milestone 1)
 > How will your _consumer_ audience access this website? From a narrow (phone) or wide (laptop) device?
 > Justify your decision. (1 sentence)
 
-TODO: audience device
-
-TODO: audience device justification
-
+- wide (laptop) device
+  - Using a wide device will allow users to view more artists at once, avoiding high amounts of scrolling potentially involved with a mobile client
 
 ### _Consumer_ Persona (Milestone 1)
 > Use the goals you identified above to develop a persona of your site's _consumer_ audience.
 > Your persona must have a name and a face. The face can be a photo of a face or a drawing, etc.
 
-TODO: persona's face
-
-TODO: persona name
+- Vladmir
+  - !["Vladmir"](images/vladmir.jpg)
 
 **Factors that Influence Behavior:**
-
-TODO: summary of the persona's factors that influence their behavior (1-2 bullet points)
+- Cultural interests of peers, time commitments
+- Geography (at both the national and local level)
+- Age
 
 **Goals:**
-
-TODO: summary of persona's goals (1-2 bullet points)
+- Be exposed to new music
+- Learn more about his favorite artists
 
 **Obstacles:**
-
-TODO: summary of persona's obstacles (1-2 bullet points)
+- Doesn't want to read too much content (ex: Wikipedia article/essay)
 
 **Desires:**
-
-TODO: summary of persona's desires (1-2 bullet points)
-
+- Wants audio and visual content
 
 ### _Administrator_ Audience (Milestone 1)
 > Briefly explain your site's _administrator_ audience. Your audience should be specific, but not arbitrarily specific. (1 sentence)
 > Justify why this audience is a **cohesive** group. (1-2 sentences)
 
-TODO: site audience
+- Music pundits (the kind that like to expose people ot new music)
 
-TODO: why is this a _cohesive_ audience?
+- Despite not having exactly the same tastes in music, the typical administrator to this site will share a love of music with other administrators.
 
 
 ### _Administrator_ Audience Goals (Milestone 1)
@@ -108,61 +91,53 @@ TODO: why is this a _cohesive_ audience?
 > List each goal below. There is no specific number of goals required for this, but you need enough to do the job (Hint: It's more than 1. But probably not more than 3.)
 > **Hint:** Users will be able to view all entries in the catalog and insert new entries into the catalog. The audience's goals should probably relate to these activities.
 
-Goal 1: TODO: brief title
+Goal 1: Expose others to music that other people will find interesting
 
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO: design ideas (1-2 sentences)
+  - Use a form to allow admins to post artists that they think are worthwhile
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO: rationale  (1-2 sentences)
+  - With this form, we are directly giving admins the power to release content to users of the site
 
-Goal 2: TODO: brief title
-
+Goal 2: Allow admins to categorize/organize existing artists according to some criteria
 - **Design Ideas and Choices** _How will you meet those goals in your design?_
-  - TODO: design ideas (1-2 sentences)
+  - Within the form that allows artists to be posted, there will be options that will allow the admin to categorize artists
 - **Rationale & Additional Notes** _Justify your decisions; additional notes._
-  - TODO: rationale (1-2 sentences)
-
-Goal 3: TODO: brief title
-
-TODO: design ideas and rationale
-
-
-TODO: add as many goals as needed
-
+  - In a single form, we will allow admins to be able to categorize the content they want to share with others.
 
 ### _Administrator_ Persona (Milestone 1)
 > Use the goals you identified above to develop a persona of your site's _administrator_ audience.
 > Your persona must have a name and a face. The face can be a photo of a face or a drawing, etc.
 
-TODO: persona's face
-
-TODO: persona name
+- Dmitri
+  - !["Dmitri"](images/dmitri.jpg)
 
 **Factors that Influence Behavior:**
-
-TODO: summary of the persona's factors that influence their behavior (1-2 bullet points)
-
+- Available time (to use computer devices)
+- Age
 **Goals:**
-
-TODO: summary of persona's goals (1-2 bullet points)
-
+- Spend some time each week sharing and categorizing content shared with others
 **Obstacles:**
-
-TODO: summary of persona's obstacles (1-2 bullet points)
+- Lacks social network reach in order to do this himself
 
 **Desires:**
-
-TODO: summary of persona's desires (1-2 bullet points)
+- An low-effort method of sharing content with others
 
 
 ### Catalog Data (Milestone 1)
 > Using your personas, identify the data you need to include in the catalog for your site's audiences.
 > Justify why this data aligns with your persona's goals. (1 sentence)
 
-TODO: list the data your persona will need to effectively use the catalog
+- Artist Name
+- Genre(s)
+- Album recommendation (spotify)
+- Biography
+- Rating (from admin)
 
-TODO: Justify why this data aids the persona with their goals.
+- Note: The above information will be split into different tables
 
+
+- For Dmitri (typical admin), this data will allow him to communicate his favorite work, overall rating, and objective information regarding a particular artist of interest.
+- For Vladmir (typical consumer), He will be on the receiving end of this communication being exposed to what might be his next favorite artist.
 
 
 ### Site Design (Milestone 1)
@@ -176,14 +151,36 @@ TODO: Justify why this data aids the persona with their goals.
 >
 > Provide a brief explanation _underneath_ each sketch. (1 sentence)
 > **Refer to your persona by name in each explanation.**
+>
 
-TODO: sketch(es) + explanation
+  - Login
+    - !["Login"](images/login.jpg)
+> - Home:
+>   - !["Home"](images/home.jpg)
+>
+> - Detail View of Artist
+>   - !["Artist detail"](images/detail_view.jpg)
+>
+> - Create Artist
+>   - !["Create Artist"](images/create_artist.jpg)
+
+
+- Explanations
+  - Login
+    - This login page is designed to acommodate the needs of both users and administrators allowing each to quickly gain access to the site in an organized way
+  - Home
+    - Uses a grid-type format to display various artists such that any user can view all or (simply some) all on one page.
+  - Detail View of Artist
+    - This page allows consumers to gain more information about a particular artist, or offers the chance to learn something new about that artist. Furthermore, this will let administrators quickly view a post and be deleted if necessary.
+  - Create Artist
+    - This form will allow admins to share content with consumers, and by proxy is what allows the site to perform its function for all
 
 
 ### Catalog Design Patterns (Milestone 1)
 > Explain how you used design patterns in your site's design. (1-2 sentences)
 
-TODO: design pattern explanation
+This website uses a 'thumbnail grid' of entries on its home page, features a list of 'tags' to be applied to filter
+through said entries, and has a "detail" page for each artist.
 
 
 ## Implementation Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
@@ -193,27 +190,31 @@ TODO: design pattern explanation
 > A bulleted list is probably the simplest way to do this.
 > Make sure you include constraints for each field.
 
-Table: TODO: table name
+Table: artists
+- id: INT {NN, U, AI, PK}
+- name: TEXT {NN},
+- bio: TEXT {},
 
-- field1: TYPE {constraints...},
-- field2...
-- TODO: table fields + type + constraints
-
+Table: reviews
+- id: INT {NN, U, AI, PK}
+- content: TEXT {NN}
+- rating: INT {NN}
+- album_rec_url: TEXT {}
 
 ### Database Query Plan (Milestone 1, Milestone 2, Milestone 3, Final Submission)
 > Plan _all_ of your database queries.
 > You may use natural language, pseudocode, or SQL.
 
 ```
-TODO: Plan a query
+SELECT * FROM artists
 ```
 
 ```
-TODO: Plan another query
+SELECT * FROM reviews
+
+SELECT artists.id AS 'artists.id', artists.name AS 'artists.name', artists.bio AS 'artists.bio'
+FROM artist INNER JOIN reviews ON (artists.id=reviews.id);
 ```
-
-TODO: ...
-
 
 ## Complete & Polished Website (Final Submission)
 
