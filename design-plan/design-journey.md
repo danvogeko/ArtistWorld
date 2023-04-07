@@ -207,6 +207,10 @@ Table: reviews
 
 ```
 SELECT * FROM artists
+
+--Selecting info for particular artist
+
+SELECT * FROM artists WHERE artists.id = ".($id_param)
 ```
 
 ```
@@ -214,6 +218,8 @@ SELECT * FROM reviews
 
 SELECT artists.id AS 'artists.id', artists.name AS 'artists.name', artists.bio AS 'artists.bio'
 FROM artist INNER JOIN reviews ON (artists.id=reviews.id);
+
+
 ```
 
 ## Complete & Polished Website (Final Submission)

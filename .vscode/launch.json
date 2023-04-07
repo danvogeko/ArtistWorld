@@ -10,7 +10,7 @@
         "-dxdebug.start_with_request=yes",
         "-dxdebug.client_port=9003",
         "-S",
-        "localhost:8000",
+        "localhost:8005",
         "router.php"
       ],
       "cwd": "${workspaceRoot}",
