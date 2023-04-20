@@ -219,6 +219,8 @@ SELECT * FROM reviews
 SELECT artists.id AS 'artists.id', artists.name AS 'artists.name', artists.bio AS 'artists.bio'
 FROM artist INNER JOIN reviews ON (artists.id=reviews.id);
 
+(Similar above query for filtering system)
+
 
 ```
 

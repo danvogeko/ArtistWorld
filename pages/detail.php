@@ -16,9 +16,8 @@ $id_param = $_GET['artist_id'] ?? NULL;
 $artist_query = exec_sql_query($db, "SELECT * FROM artists WHERE artists.id = ".($id_param));
 $artist = $artist_query->fetchAll();
 
-
 //Retrieve tags from specific artist
-$artist_tag_query = exec_sql_query($db, "SELECT * FROM artist_tags JOIN tags ON artist_tags.tag_id = tags.id WHERE artist_tags.artist_id = ".($id_param));
+$artist_tag_query = exec_sql_query($db, "SELECT * FROM artist_tags INNER JOIN tags ON artist_tags.tag_id = tags.id WHERE artist_tags.artist_id = ".($id_param));
 $artist_tags = $artist_tag_query->fetchAll();
 
 ?>
@@ -33,11 +32,19 @@ $artist_tags = $artist_tag_query->fetchAll();
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
-  <title>Detail</title>
+  <link rel="icon" type="image/x-icon" href="../public/images/favicon.png">
+
+  <title><?php echo htmlspecialchars($artist[0]['name']);?> | ArtistWorld </title>
 </head>
 
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">ArtistWorld</a>
+      <button class='btn btn-secondary'>Create a Post +</button>
+    </div>
+</nav>
+
 <body>
-  <?php foreach ($artist as $artist) { ?>
   <div class="container">
     <!-- Image/Name -->
     <div class="border">
@@ -45,16 +52,16 @@ $artist_tags = $artist_tag_query->fetchAll();
             <!-- image -->
             <div class="col-4">
                 <div class="card">
-                  <img src="../public/images/pfp.png" class="img-fluid rounded-start" alt="...">
+                  <img src="../public/uploads/artists/<?php echo $artist[0]['id']?>.<?php echo $artist[0]['file_ext']?>" class="img-fluid rounded-start" alt="<?php echo $artist[0]['name']?>">
                 </div>
             </div>
 
             <div class="col-8">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-center"> <?php echo htmlspecialchars($artist['name']); ?></h4>
+                  <h4 class="card-title text-center"> <?php echo htmlspecialchars($artist[0]['name']); ?></h4>
                   <!-- Taken directly from the corresponding artists wikipedia page (https://www.wikipedia.org/)-->
-                  <p class="card-text"> <?php echo htmlspecialchars($artist['bio']); ?>  </p>
+                  <p class="card-text"> <?php echo htmlspecialchars($artist[0]['bio']); ?>  </p>
                 </div>
               </div>
             </div>
@@ -80,11 +87,11 @@ $artist_tags = $artist_tag_query->fetchAll();
 
             <div class="card text-center">
                 <div class="card-header">
-                  <h3 class="card-title h3">Analysis: <?php echo $artist['name'];  ?></h3>
+                  <h3 class="card-title h3">Analysis: <?php echo $artist[0]['name']; ?></h3>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title h5">Rating: <?php echo $RATING[$artist['rating']];  ?></h5>
+                  <h5 class="card-title h5">Rating: <?php echo $RATING[$artist[0]['rating']];  ?></h5>
                   <p class="card-text"><?php echo $artist['review_content'];  ?></p>
                 </div>
 
@@ -97,14 +104,14 @@ $artist_tags = $artist_tag_query->fetchAll();
 
         <!-- Album Recommendations -->
         <div class="col-4">
-            <iframe style="border-radius:12px" src="<?php echo htmlspecialchars($artist['embedded_album_url']); ?>" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+            <!-- HTML provided by Spotify API -->
+            <iframe style="border-radius:12px" src="<?php echo htmlspecialchars($artist[0]['embedded_album_url']); ?>" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
             </iframe>
         </div>
 
 
     </div>
   </div>
-  <?php }?>
 
 </body>
 

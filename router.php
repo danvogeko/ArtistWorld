@@ -4,6 +4,7 @@ include_once('includes/db.php');
 const ROUTES = array(
   '/' => 'pages/home.php',
   '/detail' => 'pages/detail.php',
+  '/new_artist' => 'pages/create_artist.php'
 );
 
 function match_static($uri)
