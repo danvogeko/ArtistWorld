@@ -1,10 +1,17 @@
 <?php
 include_once('includes/db.php');
+include_once('includes/sessions.php');
+
+$db = init_sqlite_db("db/site.sqlite", "db/init.sql");
+
+$session_messages = array();
+process_session_params($db, $session_messages);
 
 const ROUTES = array(
   '/' => 'pages/home.php',
   '/detail' => 'pages/detail.php',
-  '/new_artist' => 'pages/create_artist.php'
+  '/new_artist' => 'pages/create_artist.php',
+  '/login' => "pages/login.php"
 );
 
 function match_static($uri)

@@ -6,7 +6,7 @@ $RATING = array(
   4 => "★★★★",
   5 => "★★★★★",
 );
-$db = init_sqlite_db("db/site.sqlite", "db/init.sql");
+
 
 
 //Retrieve record from database based on query parameter
@@ -37,14 +37,13 @@ $artist_tags = $artist_tag_query->fetchAll();
   <title><?php echo htmlspecialchars($artist[0]['name']);?> | ArtistWorld </title>
 </head>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">ArtistWorld</a>
-      <button class='btn btn-secondary'>Create a Post +</button>
-    </div>
-</nav>
 
 <body>
+
+<?php
+  include 'includes/navbar.php';
+?>
+
   <div class="container">
     <!-- Image/Name -->
     <div class="border">
@@ -75,9 +74,9 @@ $artist_tags = $artist_tag_query->fetchAll();
     <div class="border">
         <span class='text-bold'> Tags: </span>
           <?php foreach ($artist_tags as $tag) { ?>
-            <button type="button" class="btn btn-dark rounded-pill m-1">
+            <a href="/?<?php echo http_build_query(array("filter" => $tag['id']))?>" type="button" class="btn btn-dark rounded-pill m-1">
                 <?php echo htmlspecialchars($tag['title']);?>
-            </button>
+           </a>
           <?php } ?>
     </div>
 

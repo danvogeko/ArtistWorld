@@ -1,0 +1,17 @@
+#ignore uploaded files
+!.gitignore
+
+#do not ignore seed images
+!/artists/0.jpg
+!/artists/1.jpg
+!/artists/2.jpg
+!/artists/3.jpg
+!/artists/4.jpg
+!/artists/5.jpg
+!/artists/6.jpg
+!/artists/7.jpg
+!/artists/8.jpg
+!/artists/9.jpg
+!/artists/10.jpg
+!/artists/11.jpg
+!/artists/12.png

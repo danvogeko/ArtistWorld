@@ -5,3 +5,16 @@
 .anim:hover {
     transform: scale(1.04);
 }
+
+.card-link{
+     color: black;
+     text-decoration: none;
+}
+
+.card-link:hover {
+    color: black;
+
+}
+.card-link:visited {
+    color: purple;
+}

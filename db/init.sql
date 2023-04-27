@@ -1,3 +1,34 @@
+-- Create Users and Sessions
+CREATE TABLE users (
+    id INTEGER NOT NULL UNIQUE,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+
+    PRIMARY KEY(id AUTOINCREMENT)
+);
+
+CREATE TABLE sessions (
+    id INTEGER NOT NULL UNIQUE,
+    user_id INTEGER NOT NULL,
+    session TEXT NOT NULL UNIQUE,
+    last_login TEXT NOT NULL,
+
+    PRIMARY KEY(id AUTOINCREMENT) FOREIGN KEY(user_id) REFERENCES users(id)
+
+);
+
+INSERT INTO
+    users (username, password)
+VALUES
+    ("admin", "$2y$10$QtCybkpkzh7x5VN11APHned4J8fu78.eFXlyAMmahuAaNcbwZ7FH.");
+
+INSERT INTO
+    users (username, password)
+VALUES
+    ("user1", "$2y$10$QtCybkpkzh7x5VN11APHned4J8fu78.eFXlyAMmahuAaNcbwZ7FH.");
+
+
+
 CREATE TABLE artists (
     id INTEGER NOT NULL UNIQUE,
     bio TEXT NOT NULL,
@@ -129,11 +160,9 @@ VALUES
 
 -- Stores relationships between artists and tags
 CREATE TABLE artist_tags (
-    id INTEGER NOT NULL UNIQUE,
     artist_id INTEGER NOT NULL,
     tag_id INTEGER NOT NULL,
 
-    PRIMARY KEY (id AUTOINCREMENT),
     FOREIGN KEY (artist_id) REFERENCES artists(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)
 );
@@ -158,7 +187,7 @@ VALUES
 INSERT INTO
     artist_tags (artist_id, tag_id)
 VALUES
-    (1, 6);
+    (1, 5);
 
 --Michael Jackson 2
 INSERT INTO
@@ -181,8 +210,6 @@ INSERT INTO
     artist_tags (artist_id, tag_id)
 VALUES
     (3, 6);
-
-
 
 -- Her's 10
 INSERT INTO

@@ -1,5 +1,5 @@
 <?php
-$db = init_sqlite_db("db/site.sqlite", "db/init.sql");
+
 
 $filter = $_GET['filter'];
 $artist_sql = "SELECT * from artists";
@@ -24,7 +24,6 @@ $tags = $tags_query->fetchAll();
 
 
 
-
 ?>
 
 <!DOCTYPE html>
@@ -45,11 +44,12 @@ $tags = $tags_query->fetchAll();
   <title>ArtistWorld</title>
 </head>
 
+
+<body>
 <?php
   include 'includes/navbar.php';
 ?>
 
-<body>
     <div class="container">
       <div class="row">
         <div class="btn-group">
@@ -65,7 +65,7 @@ $tags = $tags_query->fetchAll();
 
             <!-- Release -->
             <div class="dropdown">
-              <button class="btn btn-dark dropdown-toggle rounded-pill m-1" type="button" id="country" data-bs-toggle="dropdown" aria-expanded="false">Rating</button>
+              <button class="btn btn-dark dropdown-toggle rounded-pill m-1" type="button" id="rating" data-bs-toggle="dropdown" aria-expanded="false">Rating</button>
               <ul class="dropdown-menu" aria-labelledby="country">
                 <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "2"))?>">★ (1)</a></li>
                 <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "3"))?>">★★ (2)</a></li>
@@ -83,10 +83,9 @@ $tags = $tags_query->fetchAll();
               <div class="col-6">
                 <?php
                   foreach ($artists_1 as $artist) { ?>
-                      <li class="list-group-item m-1">
                         <div class="card shadow mb-4 bg-white rounded p-3 bg-white rounded anim">
-                            <a class="stretched-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>"> </a>
-                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>"> </img>
+                            <a class="stretched-link card-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>">
+                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
                                 <hr>
                                 <div class="card-body">
                                   <h5 class="card-title"> <?php echo htmlspecialchars($artist['name']) ?></h5>
@@ -94,8 +93,9 @@ $tags = $tags_query->fetchAll();
                                     <?php echo htmlspecialchars($artist['country'])?>
                                   </p>
                                 </div>
+                            </a>
                         </div>
-                      </li>
+
                   <?php }?>
               </div>
 
@@ -104,10 +104,9 @@ $tags = $tags_query->fetchAll();
           <div class="col-6">
                 <?php
                   foreach ($artists_2 as $artist) { ?>
-                      <li class="list-group-item m-1">
                         <div class="card shadow mb-4 bg-white rounded p-3 bg-white rounded anim">
-                            <a class="stretched-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>"> </a>
-                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>"> </img>
+                            <a class="stretched-link card-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>">
+                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
                                 <hr>
                                 <div class="card-body">
                                   <h5 class="card-title"> <?php echo htmlspecialchars($artist['name']) ?></h5>
@@ -115,8 +114,8 @@ $tags = $tags_query->fetchAll();
                                     <?php echo htmlspecialchars($artist['country'])?>
                                   </p>
                                 </div>
+                            </a>
                         </div>
-                      </li>
                   <?php }?>
               </div>
 

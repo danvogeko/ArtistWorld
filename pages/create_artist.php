@@ -6,7 +6,6 @@ $RATING = array(
   4 => "★★★★",
   5 => "★★★★★",
 );
-$db = init_sqlite_db("db/site.sqlite", "db/init.sql");
 ?>
 
 <?php
@@ -122,14 +121,13 @@ if (isset($_POST["artist"])) {
   <title> Create a Post + | ArtistWorld </title>
 </head>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">ArtistWorld</a>
-      <button class='btn btn-secondary'>Create a Post +</button>
-    </div>
-</nav>
 
 <body>
+
+<?php
+  include 'includes/navbar.php';
+?>
+
     <div class="container">
         <div class="border col-8 offset-2">
             <form method="POST" enctype="multipart/form-data" action="/new_artist">
