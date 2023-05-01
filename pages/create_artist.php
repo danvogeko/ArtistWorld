@@ -11,25 +11,20 @@ $RATING = array(
 <?php
 define("MAX_FILE_SIZE", 1000000);
 
+$tags_query = exec_sql_query($db, "SELECT * from tags");
+$tags = $tags_query->fetchAll();
+
 $form_values = array(
     "bio" => "",
     "name" => "",
-    "country" => "",
     "file_ext" => "",
     "embedded_album_url" => "",
     "review_content" => "",
-    "rating" => "",
+    "tags" => ""
 );
 
-
 // Users must be logged in to upload files!
-if (isset($_POST["artist"])) {
-
-  //$upload_source = trim($_POST['source']); // untrusted
-  //if (empty($upload_source)) {
-    //$upload_source = NULL;
-  //}
-
+if (is_user_logged_in() && isset($_POST["artist"])) {
   // get the info about the uploaded files.
   $upload = $_FILES['file'];
 
@@ -60,34 +55,38 @@ if (isset($_POST["artist"])) {
     // insert upload into DB
     $form_values['bio'] = trim($_POST['bio']);
     $form_values['name'] = trim($_POST['artist']);
-    $form_values['country'] = trim($_POST['country']);
     $form_values['file_ext'] = $upload_file_ext;
     $form_values['embedded_album_url'] = trim($_POST['album']);
     $form_values['review_content'] = trim($_POST['review_content']);
-    $form_values['rating'] = trim($_POST['rating']);
 
+    $form_values['tags'] = $_POST['tags']; //This is an array, doesn't require trimming
 
-    $sql = 'INSERT INTO artists (bio, name, country, file_ext, embedded_album_url, review_content, rating) VALUES (:bio, :name, :country, :file_ext, :embedded_album_url, :review_content, :rating)';
+    $artist_sql = 'INSERT INTO artists (bio, name, file_ext, embedded_album_url, review_content) VALUES (:bio, :name,  :file_ext, :embedded_album_url, :review_content)';
 
-    $result = exec_sql_query($db, $sql,
+    $artist_result = exec_sql_query($db, $artist_sql,
     array(
         ":bio" => $form_values['bio'],
         ":name" => $form_values['name'],
-        ":country" => $form_values['country'],
         ":file_ext" => $form_values['file_ext'],
         ":embedded_album_url" => $form_values['embedded_album_url'],
         ":review_content" => $form_values['review_content'],
-        ":rating" => $form_values['rating']
-    )
-);
+      )
+    );
 
-
-    if ($result) {
-      // We successfully inserted the record into the database, now we need to
-      // move the uploaded file to it's final resting place: public/uploads directory
-
+    if ($artist_result) {
       // get the newly inserted record's id
       $artist_id = $db->lastInsertId('id');
+
+      //Relate all tags to artist upon creation
+      $tags = $form_values['tags'];
+      $relation_sql = "INSERT INTO artist_tags (artist_id, tag_id) VALUES (:artist_id, :tag_id)";
+      foreach ($tags as $tag_id) {
+        $params = array(
+          ":artist_id" => $artist_id,
+          ":tag_id" => $tag_id,
+        );
+        $relation_result = exec_sql_query($db, $relation_sql, $params);
+      }
 
       // uploaded file should be in folder with same name as table with the primary key as the filename.
       // Note: THIS IS NOT A URL; this is a FILE PATH on the server!
@@ -99,8 +98,9 @@ if (isset($_POST["artist"])) {
       // Move the file to the public/uploads/clipart folder
       // Note: THIS FUNCTION REQUIRES A PATH. NOT A URL!
       if (move_uploaded_file($upload["tmp_name"], $upload_storage_path) == False) {
-        error_log("Failed to permanently store the uploaded file on the file server. Please check that the server folder exists.");
+          error_log("Failed to permanently store the uploaded file on the file server. Please check that the server folder exists.");
       }
+
     }
   }
 }
@@ -129,56 +129,55 @@ if (isset($_POST["artist"])) {
 ?>
 
     <div class="container">
-        <div class="border col-8 offset-2">
+        <div class="col-8 offset-2">
             <form method="POST" enctype="multipart/form-data" action="/new_artist">
                 <!-- MAX_FILE_SIZE (hidden) -->
-                <input type="hidden" value="1000000"></input>
+                <input type="hidden" value="1000000">
 
                  <!-- Name -->
-                <div class="form-group">
+                <div class="form-group col-6 m-1">
                     <label for="artist">Name:</label>
                     <input type="text" name="artist" class="form-control" id="artist">
                 </div>
 
-                <!-- Country -->
-                <select id="country" name="country" class="form-select">
-                <label for="country">Country: </label>
-                    <option value="United States"> United States</option>
-                    <option value="Canada"> Canada </option>
-                </select>
+                <!-- Tags -->
+                <div class="form-group col-8 m-1">
+                    <label for="tags[]">Tags (select all that apply): </label>
+                    <select multiple name="tags[]" id="tags[]" class="form-select">
+                        <?php foreach($tags as $tag) { ?>
+                          <option value=<?php echo htmlspecialchars($tag['id'])?>> <?php echo htmlspecialchars($tag['title']) ?></option>
 
-                <!-- Rating -->
-                <div class="form-group">
-                    <label for="rating"> Rating: </label>
-                    <input name="rating" type="number" class="form-control" id="rating">
+                        <?php } ?>
+                    </select>
                 </div>
 
                 <!-- Biography -->
-                <div class="form-group">
-                    <label name="bio" for="bio"> Bio: </label>
+                <div class="form-group m-1 col-10">
+                    <label for="bio"> Bio: </label>
                     <textarea class="form-control" id="bio" name="bio"></textarea>
                 </div>
 
                 <!-- Review Content -->
-                <div class="form-group">
-                    <label name="review_content" for="review_content"> Review: </label>
-                    <textarea type="text" class="form-control" id="review_content" name="review_content"></textarea>
+                <div class="form-group m-1 col-10">
+                    <label for="review_content"> Review: </label>
+                    <textarea class="form-control" id="review_content" name="review_content"></textarea>
                 </div>
 
                 <!-- Album Rec Url -->
-                <div class="form-group">
-                    <label name="album" for="album"> Spotify Album Recommendation URL: </label>
-                    <input type="text" class="form-control" id="album" name="album"></input>
+                <div class="form-group m-1">
+                    <label for="album"> Spotify Album Recommendation URL: </label>
+                    <input type="text" class="form-control" id="album" name="album">
                 </div>
 
                 <!-- Image Upload -->
-                <div class="form-group p-1">
-                    <label name="file" for="file"> Image Upload </label>
-                    <input type="file" name="file" accept=".svg,.png,.jpg"></input>
+                <div class="form-group mt-1">
+                  <label for="file"> Image Upload: </label>
+                  <input type="file" id="file" name="file" accept=".svg,.png,.jpg">
                 </div>
 
-                <div class="text-right">
-                    <button class="btn btn-primary" type="submit">Create New Artist</button>
+
+                <div class="mt-1 float-end">
+                    <button class="btn btn-primary ms-10" type="submit">Create New Artist</button>
                 </div>
             </form>
 

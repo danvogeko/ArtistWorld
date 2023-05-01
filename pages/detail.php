@@ -7,17 +7,18 @@ $RATING = array(
   5 => "★★★★★",
 );
 
-
-
 //Retrieve record from database based on query parameter
 $id_param = $_GET['artist_id'] ?? NULL;
 
 //Use SQL Query to retrieve record
-$artist_query = exec_sql_query($db, "SELECT * FROM artists WHERE artists.id = ".($id_param));
-$artist = $artist_query->fetchAll();
+$artist_query = "SELECT * FROM artists WHERE artists.id = :artist_id";
+$param_marker = array(":artist_id" => $id_param);
+
+$artist_query = exec_sql_query($db, $artist_query, $param_marker);
+$artist = $artist_query->fetchAll(); //Should only be one record, so we will access the 0th index as the relevant artist
 
 //Retrieve tags from specific artist
-$artist_tag_query = exec_sql_query($db, "SELECT * FROM artist_tags INNER JOIN tags ON artist_tags.tag_id = tags.id WHERE artist_tags.artist_id = ".($id_param));
+$artist_tag_query = exec_sql_query($db, "SELECT * FROM artist_tags INNER JOIN tags ON artist_tags.tag_id = tags.id WHERE artist_tags.artist_id = :artist_id", $param_marker);
 $artist_tags = $artist_tag_query->fetchAll();
 
 ?>
@@ -58,7 +59,15 @@ $artist_tags = $artist_tag_query->fetchAll();
             <div class="col-8">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title text-center"> <?php echo htmlspecialchars($artist[0]['name']); ?></h4>
+                  <div class="card-title">
+                    <h4 class="text-center">
+                        <?php echo htmlspecialchars($artist[0]['name']);?>
+                        <a name="delete" class="btn btn-danger" href="/?<?php echo http_build_query(array("artist_id" => $artist[0]['id'], "file_ext" => $artist[0]['file_ext']))?>">
+                              Delete
+                        </a>
+                    </h4>
+                  </div>
+
                   <!-- Taken directly from the corresponding artists wikipedia page (https://www.wikipedia.org/)-->
                   <p class="card-text"> <?php echo htmlspecialchars($artist[0]['bio']); ?>  </p>
                 </div>
@@ -74,7 +83,7 @@ $artist_tags = $artist_tag_query->fetchAll();
     <div class="border">
         <span class='text-bold'> Tags: </span>
           <?php foreach ($artist_tags as $tag) { ?>
-            <a href="/?<?php echo http_build_query(array("filter" => $tag['id']))?>" type="button" class="btn btn-dark rounded-pill m-1">
+            <a href="/?<?php echo http_build_query(array("filter" => $tag['id']))?>" class="btn btn-dark rounded-pill m-1">
                 <?php echo htmlspecialchars($tag['title']);?>
            </a>
           <?php } ?>
@@ -83,31 +92,32 @@ $artist_tags = $artist_tag_query->fetchAll();
     <!-- Analysis row -->
     <div class="row">
         <div class="col-8">
-
             <div class="card text-center">
                 <div class="card-header">
                   <h3 class="card-title h3">Analysis: <?php echo $artist[0]['name']; ?></h3>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title h5">Rating: <?php echo $RATING[$artist[0]['rating']];  ?></h5>
-                  <p class="card-text"><?php echo $artist['review_content'];  ?></p>
+                  <p class="card-text"><?php echo $artist[0]['review_content'];  ?></p>
                 </div>
 
                 <div class="card-footer text-muted">
                   Note: This analysis a mere opinion.
                 </div>
             </div>
-
         </div>
 
         <!-- Album Recommendations -->
         <div class="col-4">
             <!-- HTML provided by Spotify API -->
-            <iframe style="border-radius:12px" src="<?php echo htmlspecialchars($artist[0]['embedded_album_url']); ?>" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
-            </iframe>
+            <div class="card">
+                <div class="card-header">
+                  <h5 class="card-title h5 text-center">My Personal Recommendation</h5>
+                </div>
+                <iframe src="<?php echo htmlspecialchars($artist[0]['embedded_album_url']); ?>" height="352" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+                </iframe>
+            </div>
         </div>
-
 
     </div>
   </div>

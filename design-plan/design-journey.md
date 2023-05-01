@@ -152,7 +152,6 @@ Goal 2: Allow admins to categorize/organize existing artists according to some c
 > Provide a brief explanation _underneath_ each sketch. (1 sentence)
 > **Refer to your persona by name in each explanation.**
 >
-
   - Login
     - !["Login"](images/login.jpg)
 > - Home:
@@ -163,17 +162,32 @@ Goal 2: Allow admins to categorize/organize existing artists according to some c
 >
 > - Create Artist
 >   - !["Create Artist"](images/create_artist.jpg)
+>
+>
+  - 2nd iteration of designs
+    - New Create Artist View
+      - !["Create Artist 2"](images/create_artist_2.jpg)
+    - New Artist View (detail view of artist)
+      - !["Detail View 2"](images/detail_view_2.jpg)
 
+- 1st Iteration Explanations
+  - Login (/login)
+    - This login page allows Dmitri to access admin controls in a quick, organized way. For Vladmir, this page offers information about how to use the cite given his use case.
+  - Home (/)
+    - Uses a grid-type format that will allow Vladmir to scan the page for new artists
+  - Detail View of Artist (/detail)
+    - This page allows Vladmir to gain more information about a particular artist, or offers the chance to learn something new about that artist. Furthermore, this will let Dmitri (admin) to quickly view a post and be deleted if necessary.
+  - Create Artist (/create_artist)
+    - This form will allow Dmitri to share content with consumers, and by proxy is what allows the site to perform its function for regular users like Vladmir
 
-- Explanations
-  - Login
-    - This login page is designed to acommodate the needs of both users and administrators allowing each to quickly gain access to the site in an organized way
-  - Home
-    - Uses a grid-type format to display various artists such that any user can view all or (simply some) all on one page.
-  - Detail View of Artist
-    - This page allows consumers to gain more information about a particular artist, or offers the chance to learn something new about that artist. Furthermore, this will let administrators quickly view a post and be deleted if necessary.
-  - Create Artist
-    - This form will allow admins to share content with consumers, and by proxy is what allows the site to perform its function for all
+- 2nd Iteration Explanations
+  - New Create Artist View
+    - Content has been altered to allow any tags to exist within the form, something the original design wasn't capable of
+      - Country, Rating fields deleted, Tags field added
+  - New Detail View of Artist
+      - Tags added: Will allow Dmitri or Vladmir to navigate to other artists within a tag directly from a detail page of an artist, facilitating discovery
+      - Spotify Recommendation section added to further immersion and add ease of access to an artist's work (labelling self-explanatory)
+
 
 
 ### Catalog Design Patterns (Milestone 1)
@@ -230,31 +244,34 @@ FROM artist INNER JOIN reviews ON (artists.id=reviews.id);
 > Tell us what issues you discovered during your accessibility audit.
 > What do you do to improve the accessibility of your site?
 
-TODO: audit fixes
+Labels had unnecessary name attributes, and closing tags for input tags were removedon detail page (HTML Validator)
+Some label ids weren't properly implemented on the create artist page
 
 
 ### Self-Reflection (Final Submission)
 > Reflect on what you learned during this assignment. How have you improved from Projects 1 and 2?
 
-TODO: reflection
+I've learned a lot about how write complex, yet secure SQL queries. Furthermore, I've only improved in my ability to use a layout.
+Also, I've been more thorough in my design process in terms of documentation. Lastly, I'm better at meeting project requirements and
+deadlines overall.
 
 
 > Take some time here to reflect on how much you've learned since you started this class. It's often easy to ignore our own progress. Take a moment and think about your accomplishments in this class. Hopefully you'll recognize that you've accomplished a lot and that you should be very proud of those accomplishments! (1-3 sentences)
 
-TODO: reflection
-
+I learned 2 new languages: SQL and PHP. I learned how to interate GitHub within VS Code and use Docker with it (securely). Also, I've learned a bit more about
+what it takes to use code that you didn't personally write from scratch in order to build a larger project.
 
 ### Collaborators (Final Submission)
 > List any persons you collaborated with on this project.
 
-TODO: list your collaborators
-
+- N/A
 
 ### Reference Resources (Final Submission)
 > Please cite any external resources you referenced in the creation of your project.
 > (i.e. W3Schools, StackOverflow, Mozilla, etc.)
 
-TODO: list reference resources
+- https://www.php.net/docs.php
+- https://developer.mozilla.org/en-US/docs/Mozilla/Firefox
 
 
 ### Grading: User Accounts (Final Submission)
@@ -263,13 +280,14 @@ TODO: list reference resources
 
 **Administrator User:**
 
-- Username: TODO: username
-- Password: TODO: password
+- Username: admin
+- Password: monkey
+
+- Username: admin2
+- Password: monkey
 
 **Consumer User:**
-
-- Username: TODO: username
-- Password: TODO: password
+- This website does not support consumer log in
 
 **Note:** Not all websites will support consumer log in. If your website doesn't, say so.
 
@@ -281,26 +299,26 @@ TODO: list reference resources
 > For each set of instructions, assume the grader is starting from /
 
 _View all entries:_
-
-1. TODO: instructions
-2.
+1. Simply access the home page (URL: "/")
 
 _View all entries for a tag:_
 
-1. TODO: instructions
-2.
+1. Navigate to home page
+2. View dropdowns under navbar
+3. Select a dropdown-item from any dropdown under the navbar
 
 _View a single entry's details:_
 
-1. TODO: instructions
-2.
+1. Navigate to home page
+2. Click on any particular entry (card element)
 
 _How to insert and upload a new entry:_
 
-1. TODO: instructions
-2.
+1. Login via the blue "Login" button on the right hand side in the NavBar. (if not logged in already)
+2. Click the gray "Add an Artist +" button that appears in the navbar.
+3. Fill out the form on the page, and click submit
 
 _How to delete an entry:_
-
-1. TODO: instructions
-2.
+1. Navigate to any entry's detail page (steps above)
+2. Click the red "delete" button next to the artists' name
+   1. (You will now be redirected to the home page)

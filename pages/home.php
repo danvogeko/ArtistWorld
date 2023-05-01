@@ -1,20 +1,43 @@
 <?php
+$filter_param = $_GET['filter'];
 
+//Delete artists (if necessary) before querying artists
+$artist_id = $_GET['artist_id'];
+$file_ext = $_GET['file_ext'];
 
-$filter = $_GET['filter'];
-$artist_sql = "SELECT * from artists";
+if (isset($artist_id) && isset($file_ext)) {
+  //Delete File
+  $file_name = $artist_id.(".").($file_ext);
+  $path_to_file = "public/uploads/artists/";
+  $path = $path_to_file.($file_name);
+  unlink($path);
 
-if (!$filter == "") {
-    $artist_sql = "SELECT * from artists INNER JOIN artist_tags ON artists.id = artist_tags.artist_id WHERE artist_tags.tag_id = ".($filter);
+  //Delete tag relations associated with artist
+  $id_param = array(":artist_id" => $artist_id);
+  $delete_relation_query = exec_sql_query($db, "DELETE FROM artist_tags WHERE artist_id = :artist_id", $id_param);
+
+  //Finally, delete artist
+  $delete_artist_query = exec_sql_query($db, "DELETE FROM artists WHERE id = :artist_id", $id_param);
 }
 
-$artist_query = exec_sql_query($db, $artist_sql);
+$artist_query = null;
+
+//Change SQL Query if filtering
+$param_marker = array(":filter" => $filter_param);
+if (isset($filter_param)) {
+    //Using GROUP_CONCAT in order to grab associated tags for each artist with just one query
+    $filtered_artist_sql = "SELECT artists.*, GROUP_CONCAT(tags.title, ', ') AS tag_titles FROM artists INNER JOIN artist_tags ON artists.id = artist_tags.artist_id INNER JOIN tags ON artist_tags.tag_id = tags.id WHERE artist_tags.tag_id = :filter GROUP BY artists.id";
+
+    $artist_query = exec_sql_query($db, $filtered_artist_sql, $param_marker);
+
+} else {
+    $artist_sql = "SELECT artists.*, GROUP_CONCAT(tags.title, ', ') AS tag_titles FROM artists LEFT JOIN artist_tags ON artists.id = artist_tags.artist_id LEFT JOIN tags ON artist_tags.tag_id = tags.id GROUP BY artists.id";
+    $artist_query = exec_sql_query($db, $artist_sql);
+}
+
 $artists = $artist_query->fetchAll();
 
-
-
 //Artists are split into two arrays for two different columns
-
 $len_artists = count($artists);
 $artists_1 = array_slice($artists, 0, ceil($len_artists/2));
 $artists_2 = array_slice($artists, ceil($len_artists/2), $len_artists);
@@ -22,7 +45,10 @@ $artists_2 = array_slice($artists, ceil($len_artists/2), $len_artists);
 $tags_query = exec_sql_query($db, "SELECT * from tags");
 $tags = $tags_query->fetchAll();
 
-
+//For organizational purposes, Country and Tags define the first 8 tags, the rest are arbitrary
+$country_tags = array_slice($tags, 0, 3);
+$rating_tags = array_slice($tags, 3, 5);
+$other_tags = array_slice($tags, 8, count($tags));
 
 ?>
 
@@ -40,7 +66,6 @@ $tags = $tags_query->fetchAll();
   <link rel="icon" type="image/x-icon" href="../public/images/favicon.png">
   <link rel="stylesheet" type="text/css" href="../public/styles/styles.css">
 
-
   <title>ArtistWorld</title>
 </head>
 
@@ -57,21 +82,29 @@ $tags = $tags_query->fetchAll();
             <div class="dropdown">
               <button class="btn btn-dark dropdown-toggle rounded-pill m-1" type="button" id="country" data-bs-toggle="dropdown" aria-expanded="false">Country</button>
               <ul class="dropdown-menu" aria-labelledby="country">
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "0"))?>">United States</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "1"))?>">Canada</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "7"))?>">United Kingdom</a></li>
+                  <?php foreach($country_tags as $tag) { ?>
+                      <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => $tag['id']))?>"><?php echo htmlspecialchars($tag['title'])?></a></li>
+                  <?php }?>
               </ul>
             </div>
 
-            <!-- Release -->
+            <!-- Rating -->
             <div class="dropdown">
               <button class="btn btn-dark dropdown-toggle rounded-pill m-1" type="button" id="rating" data-bs-toggle="dropdown" aria-expanded="false">Rating</button>
-              <ul class="dropdown-menu" aria-labelledby="country">
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "2"))?>">★ (1)</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "3"))?>">★★ (2)</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "4"))?>">★★★ (3)</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "5"))?>">★★★★ (4)</a></li>
-                <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => "6"))?>">★★★★★ (5)</a></li>
+              <ul class="dropdown-menu" aria-labelledby="rating">
+                  <?php foreach($rating_tags as $tag) { ?>
+                      <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => $tag['id']))?>"><?php echo htmlspecialchars($tag['title'])?></a></li>
+                  <?php }?>
+              </ul>
+            </div>
+
+             <!-- Other Tags -->
+             <div class="dropdown">
+              <button class="btn btn-dark dropdown-toggle rounded-pill m-1" type="button" id="other" data-bs-toggle="dropdown" aria-expanded="false">Other Tags</button>
+              <ul class="dropdown-menu" aria-labelledby="other">
+                <?php foreach($other_tags as $tag) { ?>
+                    <li><a class="dropdown-item" href="?<?php echo http_build_query(array("filter" => $tag['id']))?>"><?php echo htmlspecialchars($tag['title'])?></a></li>
+                <?php }?>
               </ul>
             </div>
 
@@ -82,16 +115,18 @@ $tags = $tags_query->fetchAll();
           <!-- Column 1 -->
               <div class="col-6">
                 <?php
-                  foreach ($artists_1 as $artist) { ?>
+                  foreach ($artists_1 as $artist) {?>
                         <div class="card shadow mb-4 bg-white rounded p-3 bg-white rounded anim">
                             <a class="stretched-link card-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>">
-                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
+                                <img class="card-img-top" src="../public/uploads/artists/<?php echo htmlspecialchars($artist['id'])?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
                                 <hr>
                                 <div class="card-body">
                                   <h5 class="card-title"> <?php echo htmlspecialchars($artist['name']) ?></h5>
+
                                   <p class="card-text">
-                                    <?php echo htmlspecialchars($artist['country'])?>
+                                    <?php echo htmlspecialchars($artist['tag_titles']) ?>
                                   </p>
+                                  <span class="form-text"> <?php echo htmlspecialchars($artist['citation'])?> </span>
                                 </div>
                             </a>
                         </div>
@@ -103,22 +138,23 @@ $tags = $tags_query->fetchAll();
           <!-- Column 2 -->
           <div class="col-6">
                 <?php
-                  foreach ($artists_2 as $artist) { ?>
+                  foreach ($artists_2 as $artist) {?>
                         <div class="card shadow mb-4 bg-white rounded p-3 bg-white rounded anim">
                             <a class="stretched-link card-link" href="/detail?<?php echo http_build_query(array("artist_id" => $artist['id'])); ?>">
-                                <img class="card-img-top" src="../public/uploads/artists/<?php echo $artist['id']?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
+                                <img class="card-img-top" src="../public/uploads/artists/<?php echo htmlspecialchars($artist['id'])?>.<?php echo $artist['file_ext']?>" alt="<?php echo htmlspecialchars($artist['name'])?>">
                                 <hr>
                                 <div class="card-body">
                                   <h5 class="card-title"> <?php echo htmlspecialchars($artist['name']) ?></h5>
+
                                   <p class="card-text">
-                                    <?php echo htmlspecialchars($artist['country'])?>
+                                    <?php echo htmlspecialchars($artist['tag_titles']) ?>
                                   </p>
+                                  <span class="form-text"> <?php echo htmlspecialchars($artist['citation'])?> </span>
                                 </div>
                             </a>
                         </div>
                   <?php }?>
               </div>
-
 
 
       </div>

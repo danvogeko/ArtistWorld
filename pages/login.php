@@ -1,3 +1,11 @@
+<?php
+    //Logged_in users don't need acess to login page
+    if (is_user_logged_in()) {
+        header("Location: /");
+        exit;
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,19 +31,17 @@
         <!-- Login Form Column -->
         <div class="col-md-6 py-5">
             <h1>Admin Login</h1>
-            <?php echo login_form("/", $session_messages) ?>
+            <?php echo login_form("/login", $session_messages) ?>
         </div>
 
         <!-- Vertical Divider -->
         <div class="col-md-6 border-start py-5">
             <div class="d-flex flex-column justify-content-between h-100">
-            <div>
-                <h1>Guest Users</h1>
-                <p> You may also access ArtistWorld without logging in. Press the button below to continue. </p>
-            </div>
-            <div>
-                <a href="/" class="btn btn-primary">Continue as Guest</a>
-            </div>
+                <div>
+                    <h1>Guest Users</h1>
+                    <p> You may also access ArtistWorld without logging in. Press the button below to continue. </p>
+                    <a href="/" class="btn btn-primary">Continue as Guest</a>
+                </div>
             </div>
         </div>
 

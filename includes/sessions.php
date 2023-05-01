@@ -264,17 +264,17 @@ function login_form($action, $messages)
 
   <form class="login" action="<?php echo htmlspecialchars($action) ?>" method="post" novalidate>
     <div class="label-input">
-      <label for="username">Username:</label>
-      <input id="username" type="text" name="login_username" value="<?php echo htmlspecialchars($sticky_login_username); ?>" required />
+      <label class="form-label" for="username">Username:</label>
+      <input class="form-control" id="username" type="text" name="login_username" value="<?php echo htmlspecialchars($sticky_login_username); ?>" required />
     </div>
 
     <div class="label-input">
-      <label for="password">Password:</label>
-      <input id="password" type="password" name="login_password" required />
+      <label class="form-label" for="password">Password:</label>
+      <input class="form-control mb-3" id="password" type="password" name="login_password" required />
     </div>
 
     <div class="align-right">
-      <button name="login" type="submit">Sign In</button>
+      <button class="btn btn-primary" name="login" type="submit">Sign In</button>
     </div>
   </form>
 <?php
